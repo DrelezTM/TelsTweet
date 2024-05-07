@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelsTweet | Followers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F0F2FF] font-['Open Sans']">
+    <div class="bg-white fixed w-full flex py-4 justify-between md:justify-around items-center z-20">
+        <div class="px-10">
+            <a href="/home">
+                <img class="w-[40px]" src="/img/logo.jpeg" alt="TelsTweet">
+            </a>
+        </div>
+        <div class="text-xl  flex md:gap-6 gap-4 md:absolute fixed bottom-0 md:bottom-auto bg-white md:w-auto w-full justify-evenly md:justify-normal">
+            <a href="/home" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <% if (myaccount) { %>
+                <a href="/search" class="text-[#B7B8B8] py-5 px-2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+            <% } else { %>
+                <a href="/search" class="py-5 px-2">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </a>
+            <% } %>
+            <a href="/post" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+            <% if (myaccount) { %>
+                <a href="/@<%= user_id %>" class="py-5 px-2">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            <% } else { %>
+                <a href="/@<%= user_id %>" class="text-[#B7B8B8] py-5 px-2">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            <% } %>
+        </div>
+        <div class="text-xl">
+            <a href="/logout" class="text-[#B7B8B8] py-5 px-10">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="pt-[5.6rem] pb-28 flex flex-col justify-center items-center">
+        <div class="border-[2px] border-[#B8B8B8] w-[360px] bg-white flex justify-evenly rounded-lg relative">
+            <form class="w-full" action="/<%= user %>/followers" method="get">
+                <% if (search) { %>
+                    <input class="w-full rounded-lg py-3 pl-5 pr-[3rem]" type="text" name="search" placeholder="Search Followers.." value="<%= search %>">
+                <% } else { %>
+                    <input class="w-full rounded-lg py-3 pl-5 pr-[3rem]" type="text" name="search" placeholder="Search Followers..">
+                <% } %>
+                <button class="absolute flex items-center py-3 px-4  top-[0.2rem] right-1" type="submit"><i class="text-[#B8B8B8] fa-solid fa-magnifying-glass"></i></button>
+            </form>
+        </div>
+
+        <div class="my-4 flex flex-col gap-2">
+            <% if (result) { %>
+                <% result.forEach((user) => { %>
+                    <a class="border-[2px] border-[#B7B8B8] bg-white w-[360px] flex rounded-lg p-2 items-center gap-4" href="/@<%= user.user_id %>">
+                        <div>
+                            <img class="w-[55px] h-[55px] rounded-full" src="/profile/<%= user.image %>" alt="">
+                        </div>
+                        <div>
+                            <h3 class="font-bold"><%= user.user_id %></h3>
+                            <p class="text-sm text-[#B7B8B8]"><%= user.username %></p>
+                        </div>
+                    </a>
+                <% }); %>
+
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

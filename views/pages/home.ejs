@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelsTweet | Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F0F2FF] font-['Open Sans']">
+    <div class="bg-white fixed w-full flex py-4 justify-between md:justify-around items-center z-20">
+        <div class="px-10">
+            <a href="/home">
+                <img class="w-[40px]" src="/img/logo.jpeg" alt="TelsTweet">
+            </a>
+        </div>
+        <div class="text-xl  flex md:gap-6 gap-4 md:absolute fixed bottom-0 md:bottom-auto bg-white md:w-auto w-full justify-evenly md:justify-normal">
+            <a href="/home" class="py-5 px-2">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <a href="/search" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <a href="/post" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+            <a href="/@<%= user_id %>" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-user"></i>
+            </a>
+        </div>
+        <div class="text-xl">
+            <a href="/logout" class="text-[#B7B8B8] py-6 px-10">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="pt-[5.6rem] pb-28 flex flex-col justify-center items-center">
+        <div class="border-[2px] border-[#B8B8B8] bg-white w-[360px] flex justify-evenly rounded-lg font-semibold">
+            <% if (type == 'foryou') { %>
+                <a class="px-6 py-3" href="?type=foryou">For You</a>
+                <a class="px-6 py-3 text-[#B8B8B8]" href="?type=following">Following</a>
+            <% } else { %>
+                <a class="px-6 py-3 text-[#B8B8B8]" href="?type=foryou">For You</a>
+                <a class="px-6 py-3" href="?type=following">Following</a>
+            <% } %>
+        </div>
+
+        <% result.forEach((post) => { %>
+            <div class="flex py-2 h-fit relative my-3">
+                <div class="flex justify-center h-fit px-2">
+                    <img class="z-10 w-[55px] h-[55px] rounded-full" src="/profile/<%= post.profile %>" alt="">
+                    <div class="w-[2px] h-full bg-[#B8B8B8] absolute rounded-md"></div>
+                </div>
+                <div class="h-fit">
+                    <% if (post.content !== "") { %>
+                        <div class="px-1 pb-2 w-[290px]">
+                            <a href="/@<%= post.user_id %>" class="font-bold"><%= post.user_id %></a>
+                            <p><%= post.message %></p>
+                        </div>
+                        <div class="w-[290px] px-1">
+                            <img class="border-2 rounded-md border-[#B8B8B8]" src="/post/<%= post.content %>" alt="">
+                        </div>
+                        <div class="text-2xl px-2 pt-2 text-[#B8B8B8] gap-3 flex">
+                    <% } else { %>
+                        <div class="px-1 w-[290px]">    
+                            <a href="/@<%= post.user_id %>" class="font-bold"><%= post.user_id %></a>
+                            <p><%= post.message %></p>
+                        </div>
+                        <div class="text-2xl px-2 text-[#B8B8B8] gap-3 flex">
+                    <% } %>
+                        <% if (post.user_liked) { %>
+                            <button class="hidden" onclick="like('<%= post.tweet_id %>')" id="like-<%= post.tweet_id %>">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <button onclick="unlike('<%= post.tweet_id %>')" id="unlike-<%= post.tweet_id %>">
+                                <i class="text-red-600 fa-solid fa-heart"></i>
+                            </button>
+                        <% } else { %>
+                            <button onclick="like('<%= post.tweet_id %>')" id="like-<%= post.tweet_id %>">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <button class="hidden" onclick="unlike('<%= post.tweet_id %>')" id="unlike-<%= post.tweet_id %>">
+                                <i class="text-red-600 fa-solid fa-heart"></i>
+                            </button>
+                        <% } %>
+                            <a href="/tweet/<%= post.tweet_id %>">
+                                <i class="fa-regular fa-comment"></i>
+                            </a>
+                        <% if (user_id == post.user_id) { %>
+                            <button onclick="remove('<%= post.tweet_id %>')">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        <% } %>
+                    </div>
+                    <div class="px-2 text-[#B8B8B8]">
+                        <p class="text-sm"><a href="/likes/<%= post.tweet_id %>">Like <span id="likeLength-<%= post.tweet_id %>"><%= post.like_count %></span></a> - <a href="/tweet/<%= post.tweet_id %>">Comment <span id="commentLength-<%= post.tweet_id %>"><%= post.comment_count %></span></a></p>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function _0x3b5f(){const _0x206459=['post','1072098PEKxiN','185169llNOVf','/like','24cOxAgf','671ZFLxxB','textContent','/unlike','likeLength-','classList','reload','382362TbygDe','remove','hidden','184180hLZPcz','48Ylxtzf','704354iWlGAS','1788556EgsiXr','1898455DSXxxQ','getElementById','44BxMFPA','innerHTML','add','unlike-'];_0x3b5f=function(){return _0x206459;};return _0x3b5f();}(function(_0x46c4f6,_0xe03df3){const _0x35a463=_0x3e31,_0x408fae=_0x46c4f6();while(!![]){try{const _0x206213=-parseInt(_0x35a463(0x9b))/0x1+parseInt(_0x35a463(0x92))/0x2+parseInt(_0x35a463(0xa4))/0x3*(parseInt(_0x35a463(0x95))/0x4)+-parseInt(_0x35a463(0x93))/0x5+parseInt(_0x35a463(0x9d))/0x6*(-parseInt(_0x35a463(0xa9))/0x7)+parseInt(_0x35a463(0xa8))/0x8*(parseInt(_0x35a463(0x9a))/0x9)+-parseInt(_0x35a463(0xa7))/0xa*(parseInt(_0x35a463(0x9e))/0xb);if(_0x206213===_0xe03df3)break;else _0x408fae['push'](_0x408fae['shift']());}catch(_0x3a696e){_0x408fae['push'](_0x408fae['shift']());}}}(_0x3b5f,0xe0a5e));function like(_0x4f674a){const _0x2aa159=_0x3e31,_0x2c7b07=document['getElementById']('like-'+_0x4f674a),_0x58fcf1=document['getElementById'](_0x2aa159(0x98)+_0x4f674a),_0x3955ab=document['getElementById'](_0x2aa159(0xa1)+_0x4f674a);axios[_0x2aa159(0x99)](_0x2aa159(0x9c),{'tweetid':_0x4f674a}),_0x58fcf1[_0x2aa159(0xa2)][_0x2aa159(0xa5)]('hidden'),_0x2c7b07[_0x2aa159(0xa2)][_0x2aa159(0x97)](_0x2aa159(0xa6)),_0x3955ab[_0x2aa159(0x96)]=parseInt(_0x3955ab[_0x2aa159(0x9f)])+0x1;}function unlike(_0x40b348){const _0x56bbaf=_0x3e31,_0x4a21e0=document[_0x56bbaf(0x94)]('like-'+_0x40b348),_0x1cb085=document[_0x56bbaf(0x94)](_0x56bbaf(0x98)+_0x40b348),_0x267456=document['getElementById']('likeLength-'+_0x40b348);axios[_0x56bbaf(0x99)](_0x56bbaf(0xa0),{'tweetid':_0x40b348}),_0x4a21e0[_0x56bbaf(0xa2)][_0x56bbaf(0xa5)](_0x56bbaf(0xa6)),_0x1cb085['classList'][_0x56bbaf(0x97)]('hidden'),_0x267456['innerHTML']=parseInt(_0x267456[_0x56bbaf(0x9f)])-0x1;}function _0x3e31(_0x5ebceb,_0xe9fb40){const _0x3b5f75=_0x3b5f();return _0x3e31=function(_0x3e311f,_0x5ae90c){_0x3e311f=_0x3e311f-0x92;let _0x38e548=_0x3b5f75[_0x3e311f];return _0x38e548;},_0x3e31(_0x5ebceb,_0xe9fb40);}function remove(_0x5aa457){const _0x5b4c47=_0x3e31;axios[_0x5b4c47(0x99)]('/remove',{'tweetid':_0x5aa457}),location[_0x5b4c47(0xa3)]();}
+        
+        // function like(id) {
+        //     const likeid = document.getElementById(`like-${id}`);
+        //     const unlikeid = document.getElementById(`unlike-${id}`);
+        //     const likeLength = document.getElementById(`likeLength-${id}`);
+
+        //     axios.post('/like', { tweetid: id });
+
+        //     unlikeid.classList.remove('hidden');
+        //     likeid.classList.add('hidden');
+        //     likeLength.innerHTML = parseInt(likeLength.textContent) + 1;
+        // }
+
+        // function unlike(id) {
+        //     const likeid = document.getElementById(`like-${id}`);
+        //     const unlikeid = document.getElementById(`unlike-${id}`);
+        //     const likeLength = document.getElementById(`likeLength-${id}`);
+
+        //     axios.post('/unlike', { tweetid: id });
+
+        //     likeid.classList.remove('hidden');
+        //     unlikeid.classList.add('hidden');
+        //     likeLength.innerHTML = parseInt(likeLength.textContent) - 1;
+        // }
+
+        // function remove(id) {
+        //     axios.post('/remove', { tweetid: id });
+        //     location.reload();
+        // }
+    </script>
+</body>
+</html>

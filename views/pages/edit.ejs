@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TelsTtweet | Edit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F0F2FF] font-['Open Sans']"> 
+    <div class="bg-white fixed w-full flex py-4 justify-between md:justify-around items-center z-20">
+        <div class="px-10">
+            <a href="/home">
+                <img class="w-[40px]" src="/img/logo.jpeg" alt="TelsTweet">
+            </a>
+        </div>
+        <div class="text-xl  flex md:gap-6 gap-4 md:absolute fixed bottom-0 md:bottom-auto bg-white md:w-auto w-full justify-evenly md:justify-normal">
+            <a href="/home" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <a href="/search" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </a>
+            <a href="/post" class="text-[#B7B8B8] py-5 px-2">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+            <a href="/@<%= user_id %>" class="py-5 px-2">
+                <i class="fa-solid fa-user"></i>
+            </a>
+        </div>
+        <div class="text-xl">
+            <a href="/logout" class="text-[#B7B8B8] py-5 px-10">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="pt-[5.6rem] pb-28 flex w-full justify-center items-center flex-col gap-3">
+        <% if (errorMessage) { %>
+        <div class="bg-white w-[360px] rounded-md p-4">
+            <p class="text-red-600"><%= errorMessage %></p>
+        </div>
+        <% } %>
+        <div class="bg-white w-[360px] rounded-md flex flex-col justify-center items-center py-6">
+            <form action="/@<%= user_id %>/edit" method="POST" enctype="multipart/form-data">
+                <div class="flex justify-center items-center relative">
+                    <button type="button" onclick="document.getElementById('image').click()">
+                        <img id="preview" class="w-[150px] h-[150px] rounded-full border-[5px] border-black" src="/profile/<%= result[0].image %>" alt="">
+                        <div class="bg-black text-white w-[35px] h-[35px] flex items-center justify-center rounded-full absolute right-[0.6in] bottom-[10px]">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                    </button>
+                </div>
+                <div class="py-3 gap-2 flex flex-col">
+                    <input type="file" name="image" id="image" accept="image/*" hidden>
+                    <div class="flex flex-col relative">
+                        <label>UserID :</label>
+                        <input class="pl-10 pr-4 py-2 rounded-md border-2 border-[#B7B8B8]" type="text" value="<%= result[0].user_id %>" name="user_id" placeholder="UserID" />
+                        <i class="fa-solid fa-hashtag absolute top-[38px] left-4"></i>
+                    </div>
+                    <div class="flex flex-col relative">
+                        <label>Username :</label>
+                        <input class="pl-10 pr-4 py-2 rounded-md border-2 border-[#B7B8B8]" type="text" value="<%= result[0].username %>" name="username" placeholder="Username" />
+                        <i class="fa-solid fa-tag absolute top-[38px] left-4"></i>
+                    </div>
+                    <div class="flex flex-col relative">
+                        <label>Description :</label>
+                        <textarea class="pl-10 pr-4 py-2 rounded-md border-2 border-[#B7B8B8]" type="description" name="description" placeholder="Description"><%= result[0].description %></textarea> 
+                        <i class="fa-solid fa-message absolute top-[38px] left-4"></i>
+                    </div>
+                    <div class="flex flex-col relative">
+                        <label>Email :</label>
+                        <input class="pl-10 pr-4 py-2 rounded-md border-2 border-[#B7B8B8]" type="email" value="<%= result[0].email %>" name="email" placeholder="Email" />
+                        <i class="fa-solid fa-user absolute top-[38px] left-4"></i>
+                    </div>
+                    <a class="text-red-500" href="/password/current"><u>Click here</u> to reset password</a>
+                    <button class="bg-black text-white w-full p-2 rounded-md mt-2" type="submit">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        const _0x1356bd=_0x2af7;function _0x2af7(_0x3d5ae3,_0x26f782){const _0x158110=_0x1581();return _0x2af7=function(_0x2af7b1,_0x2a8d51){_0x2af7b1=_0x2af7b1-0x194;let _0x56ae92=_0x158110[_0x2af7b1];return _0x56ae92;},_0x2af7(_0x3d5ae3,_0x26f782);}(function(_0x409e5a,_0xae661f){const _0x3835b7=_0x2af7,_0x6094d9=_0x409e5a();while(!![]){try{const _0x25d020=parseInt(_0x3835b7(0x19f))/0x1*(parseInt(_0x3835b7(0x19d))/0x2)+-parseInt(_0x3835b7(0x195))/0x3*(parseInt(_0x3835b7(0x19b))/0x4)+-parseInt(_0x3835b7(0x197))/0x5+-parseInt(_0x3835b7(0x199))/0x6+-parseInt(_0x3835b7(0x194))/0x7+parseInt(_0x3835b7(0x1a0))/0x8+parseInt(_0x3835b7(0x1a2))/0x9*(parseInt(_0x3835b7(0x19e))/0xa);if(_0x25d020===_0xae661f)break;else _0x6094d9['push'](_0x6094d9['shift']());}catch(_0x42f964){_0x6094d9['push'](_0x6094d9['shift']());}}}(_0x1581,0x219bf),document[_0x1356bd(0x19c)](_0x1356bd(0x198))['addEventListener'](_0x1356bd(0x1a1),function(_0x52b0c1){const _0x38940e=_0x1356bd,_0x985d26=_0x52b0c1['target']['files'][0x0];if(_0x985d26){const _0x521cb1=URL[_0x38940e(0x19a)](_0x985d26),_0x37127b=document[_0x38940e(0x19c)](_0x38940e(0x196));_0x37127b['src']=_0x521cb1;}}));function _0x1581(){const _0x22c457=['preview','1166285hBgoJb','image','274404LZFdXX','createObjectURL','32gnfuaM','getElementById','10652GcaVQj','12450WREgYR','4YcqAyV','763344TdbwXv','change','4032yuQrNU','319116kpqBVV','79590GDkcBf'];_0x1581=function(){return _0x22c457;};return _0x1581();}
+
+        // document.getElementById('image').addEventListener('change', function(event) {
+        //     const file = event.target.files[0];
+        //     if (file) {
+        //         const imageUrl = URL.createObjectURL(file);
+        //         const imagePreview = document.getElementById('preview');
+                
+        //         imagePreview.src = imageUrl;
+        //     }
+        // });
+    </script>
+</body>
+</html>
